@@ -21,16 +21,16 @@ class MyHTTPServer:
         request = conn.recv(1024).decode('utf-8')
         if not request:
             return
-        method, path, headers, body = self.parse_request(request)
-        response = self.handle_request(method, path, headers, body)
+        method, headers, body = self.parse_request(request)
+        response = self.handle_request(method, headers, body)
         conn.sendall(response)
 
     def parse_request(self, request):
         lines = request.split('\r\n')
-        method, path, version = lines[0].split(' ')
+        method, _, _ = lines[0].split(' ')
         headers = self.parse_headers(lines[1:])
         body = lines[-1] if method == "POST" else ""
-        return method, path, headers, body
+        return method, headers, body
 
     def parse_headers(self, lines):
         headers = {}
@@ -41,23 +41,24 @@ class MyHTTPServer:
             headers[key] = value
         return headers
 
-    def handle_request(self, method, path, headers, body):
+    def handle_request(self, method, headers, body):
         if method == "GET":
-            return self.handle_get(path)
+            return self.handle_get()
         elif method == "POST":
-            return self.handle_post(path, body)
+            return self.handle_post(body)
         else:
             return self.send_response(405, "Method Not Allowed", "Method not supported")
 
-    def handle_get(self, path):
+    def handle_get(self):
         html_content = "<html><body><h1>Журнал оценок</h1><ul>"
         for subject, grades in self.data.items():
             html_content += f"<li>{subject}: {', '.join(map(str, grades))}</li>"
         html_content += "</ul></body></html>"
         return self.send_response(200, "OK", html_content, content_type="text/html")
 
-    def handle_post(self, path, body):
+    def handle_post(self, body):
         parsed_body = parse_qs(body)
+
         subject = parsed_body.get('subject', [''])[0]
         grade = parsed_body.get('grade', [''])[0]
 

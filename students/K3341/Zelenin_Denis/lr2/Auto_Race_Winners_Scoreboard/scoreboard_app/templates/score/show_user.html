@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        .user-detail {
+            margin-bottom: 10px;
+        }
+        .user-detail span {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>User Details</h1>
+        <div class="user-detail">
+            <span>First Name:</span> {{ user.first_name }}
+        </div>
+        <div class="user-detail">
+            <span>Last Name:</span> {{ user.last_name }}
+        </div>
+        <div class="user-detail">
+            <span>Login:</span> {{ user.login }}
+        </div>
+        <div class="user-detail">
+            <span>Rating:</span> {{ user.rating }}
+        </div>
+        <a href="/">Go back to homepage</a>
+    </div>
+</body>
+</html>

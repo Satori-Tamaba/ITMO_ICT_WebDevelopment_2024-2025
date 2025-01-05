@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver and Car Details</title>
+    {% load static %}
+    <!-- Подключение CSS -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <!-- Заголовок страницы -->
+        <h1>Driver and Car Details</h1>
+
+        <!-- Карточка водителя -->
+        <div class="driver-card">
+            <h2>Driver Information</h2>
+            <div class="driver-detail">
+                <span>First Name:</span> {{ driver.first_name }}
+            </div>
+            <div class="driver-detail">
+                <span>Last Name:</span> {{ driver.last_name }}
+            </div>
+            <div class="driver-detail">
+                <span>Driver Number:</span> {{ driver.number }}
+            </div>
+            <div class="driver-detail">
+                <span>Team:</span> {{ driver.team }}
+            </div>
+            <div class="driver-detail">
+                <span>Experience:</span> {{ driver.experience }} years
+            </div>
+            <div class="driver-detail">
+                <span>Grade:</span> {{ driver.get_grade_display }}
+            </div>
+        </div>
+
+        <!-- Карточка машины -->
+        <div class="car-card">
+            <h2>Car Information</h2>
+            <div class="car-detail">
+                <span>Model:</span> {{ car.model }}
+            </div>
+            <div class="car-detail">
+                <span>Manufacture Date:</span> {{ car.create_date }}
+            </div>
+            <div class="car-detail">
+                <span>Acceleration (0-100 km/h):</span> {{ car.Acceleration_to_100 }} seconds
+            </div>
+            <div class="car-detail">
+                <span>Weight:</span> {{ car.weight }} kg
+            </div>
+        </div>
+
+        <!-- Кнопка "Назад" -->
+        <a href="/" class="back-link">← Go back to homepage</a>
+    </div>
+</body>
+</html>

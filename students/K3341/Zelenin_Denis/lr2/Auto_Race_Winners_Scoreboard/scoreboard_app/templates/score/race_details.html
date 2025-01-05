@@ -1,0 +1,25 @@
+<h1>Результаты гонки</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Позиция</th>
+            <th>Водитель</th>
+            <th>Машина</th>
+            <th>Команда</th>
+            <th>Трасса</th>
+            <th>Время</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for race in races %}
+        <tr>
+            <td>{{ race.end_position }}</td>
+            <td>{{ race.Driver_id.first_name }} {{ race.Driver_id.last_name }}</td>
+            <td>{{ race.Driver_id.car_id.model }}</td>
+            <td>{{ race.Driver_id.team }}</td>
+            <td>{{ race.truck_id.name }} {{ race.truck_id.country }})</td>
+            <td>{{ race.driver_time }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
