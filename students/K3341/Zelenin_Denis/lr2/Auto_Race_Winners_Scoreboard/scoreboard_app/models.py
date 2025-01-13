@@ -11,6 +11,9 @@ class Car(models.Model):
     Acceleration_to_100 = models.FloatField()
     weight = models.IntegerField()
 
+    def __str__(self):
+        return self.model
+
 
 class Driver(models.Model):
     car_id = models.ForeignKey(Car, on_delete=models.CASCADE)
@@ -28,6 +31,9 @@ class Driver(models.Model):
     grade = models.CharField(max_length=15, choices=GRADE_CHOICES)
     slug = models.SlugField(unique=True, max_length=200, blank=True)
 
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(f"{self.first_name}_{self.last_name}")
@@ -41,18 +47,23 @@ class Truck(models.Model):
     date = models.DateField(blank=True)
     truck_type = models.CharField(max_length=20)
 
+    def __str__(self):
+        return self.name
+
 
 class User(AbstractUser):
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
-    login = models.CharField(max_length=20)
-    password = models.CharField(max_length=15)
-    rating = models.FloatField(default=0.0)
     slug = models.SlugField(unique=True, max_length=200, blank=True)
+    username = models.CharField(
+        max_length=22,
+        unique=True,
+        null=False
+    )
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.login)
+            self.slug = slugify(self.username)
         super().save(*args, **kwargs)
 
 
@@ -62,8 +73,6 @@ class Race(models.Model):
     start_position = models.IntegerField()
     end_position = models.IntegerField()
     driver_time = models.TimeField()
-
-
 
 
 class Comments(models.Model):
