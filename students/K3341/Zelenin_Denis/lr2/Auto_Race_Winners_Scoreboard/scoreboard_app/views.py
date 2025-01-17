@@ -135,7 +135,7 @@ def profile_view(request):
     return render(request, 'score/profile.html', {'user': request.user})
 
 
-# View for user signup
+
 def signup(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
