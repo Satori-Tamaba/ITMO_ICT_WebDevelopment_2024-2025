@@ -1,10 +1,12 @@
 from django.urls import path, include, re_path
-from rest_framework import routers
-from rest_framework import permissions
+from rest_framework import routers, permissions
 from drf_yasg.views import get_schema_view
-
-from .views import *
 from drf_yasg import openapi
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.routers import DefaultRouter
+
+from .views import (InsuranceAgentViewSet, OrganizationViewSet, CollectiveContractViewSet,
+                    InsuranceCaseViewSet, EmploymentContractViewSet, EmployeeCaseViewSet)
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -17,21 +19,21 @@ schema_view = get_schema_view(
     ),
     public=True,
     permission_classes=(permissions.AllowAny,),
-    authentication_classes=(),  # Отключите глобальную аутентификацию здесь, если нужно
+    authentication_classes=(TokenAuthentication,),  # Добавлено для поддержки аутентификации по токену
 )
 
-router = routers.DefaultRouter()
-router.register(r'organizations', OrganizationsViewSet)
-router.register(r'employees', EmployeeViewSet)
-router.register(r'categoryPayment', CategoryPaymentViewSet)
-router.register(r'insurance_cases', InsuranceCasesViewSet)
-router.register(r'insurance_cotracts', InsuranceCotractsViewSet)
-router.register(r'insurance_agents', InsuranceAgentsViewSet)
+router = DefaultRouter()
+router.register(r'agents', InsuranceAgentViewSet)
+router.register(r'organizations', OrganizationViewSet)
+router.register(r'collective-contracts', CollectiveContractViewSet)
+router.register(r'insurance-cases', InsuranceCaseViewSet)
+router.register(r'employment-contracts', EmploymentContractViewSet)
+router.register(r'employee', EmployeeCaseViewSet)
+
 urlpatterns = [
     path('', include(router.urls)),
-    path('/auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls')),
     re_path(r'^auth/', include('djoser.urls.authtoken')),
     path('doc/swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('doc/redoc', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc')
-
+    path('doc/redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]

@@ -1,61 +1,34 @@
 from rest_framework import serializers
+from .models import (InsuranceAgent, Organization, Employee, CollectiveContract,
+                     InsuranceCase, EmploymentContract)
 
-from .models import *
-
-
-class OrganizationsSerializer(serializers.ModelSerializer):
+class InsuranceAgentSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Organizations
+        model = InsuranceAgent
         fields = '__all__'
 
-
-class InsuranceAgentsSerializer(serializers.ModelSerializer):
+class OrganizationSerializer(serializers.ModelSerializer):
     class Meta:
-        model = InsuranceAgents
+        model = Organization
         fields = '__all__'
 
-
-class InsuranceCotractsSerializer(serializers.ModelSerializer):
-    AgentID = serializers.PrimaryKeyRelatedField(queryset=InsuranceAgents.objects.all())
-    OrganizationID = serializers.PrimaryKeyRelatedField(queryset=Organizations.objects.all())
-
+class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = InsuranceCotracts
+        model = Employee
         fields = '__all__'
 
-
-class InsuranceCasesSerializer(serializers.ModelSerializer):
-    CotractID = InsuranceCotractsSerializer(read_only=True)
-
+class CollectiveContractSerializer(serializers.ModelSerializer):
     class Meta:
-        model = InsuranceCases
+        model = CollectiveContract
         fields = '__all__'
 
-
-class AgentContractsSerializer(serializers.ModelSerializer):
-    AgentID = InsuranceAgentsSerializer(read_only=True)
-
+class InsuranceCaseSerializer(serializers.ModelSerializer):
     class Meta:
-        model = AgentContracts
+        model = InsuranceCase
         fields = '__all__'
 
-
-class EmployeesSerializer(serializers.ModelSerializer):
-    OrganizationID = serializers.PrimaryKeyRelatedField(queryset=Organizations.objects.all())
-
+class EmploymentContractSerializer(serializers.ModelSerializer):
+    insurance_agent = InsuranceAgentSerializer(read_only=True)
     class Meta:
-        model = Employees
-        fields = '__all__'
-
-    def to_representation(self, instance):
-        rep = super().to_representation(instance)
-        rep['OrganizationID'] = OrganizationsSerializer(instance.OrganizationID).data
-        return rep
-
-
-class CategoryPaymentsSerializer(serializers.ModelSerializer):
-    ContractID = InsuranceCotractsSerializer(read_only=True)
-
-    class Meta:
-        model = CategoryPayments
+        model = EmploymentContract
         fields = '__all__'
